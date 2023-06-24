@@ -1,0 +1,51 @@
+const heart = require("../../../assets/icons/heart.png"); 
+const menu = require("../../../assets/icons/menu.png") ;
+const Iicon = require("../../../assets/icons/info.png") ;
+const ifelem = require("../../../assets/icons/iFELEM-icon.png") 
+const femelapp = require("../../../assets/icons/i-felem-app.png") 
+const search = require("../../../assets/icons/search.png") ;
+const searchGreen = require("../../../assets/icons/searchGreen.png") ;
+const homeGreen = require("../../../assets/icons/homeGreen.png") ;
+const mailGreen = require("../../../assets/icons/mailGreen.png") ;
+const groupGreen = require("../../../assets/icons/groupGreen.png") 
+const home = require("../../../assets/icons/home.png") 
+const group = require("../../../assets/icons/group.png") 
+const filter =require("../../../assets/icons/filter.png") ;
+const loop = require("../../../assets/icons/loupe.png") ;
+const left = require("../../../assets/icons/left.png") ;
+const enveloppe = require("../../../assets/icons/enveloppe.png") 
+const heartOutline= require("../../../assets/icons/heart-ol.png") ;
+const share = require("../../../assets/icons/share.png") ;
+const location= require("../../../assets/icons/location.png") ;
+const chevronLeft= require('../../../assets/icons/chevron-left.png') 
+const chevronRight= require('../../../assets/icons/chevron-right.png') 
+const check = require('../../../assets/icons/check.png') 
+const rightArrow= require('../../../assets/icons/right-arrow.png') 
+const rightChevronWhite = require('../../../assets/icons/right-chevron-white.png')
+
+export {
+  rightChevronWhite,
+  check,
+  groupGreen,
+  homeGreen,
+  mailGreen,
+  searchGreen,
+  rightArrow,
+  heart,
+  menu,
+  search,
+  group,
+  home,
+  filter,
+  ifelem,
+  loop,
+  femelapp,
+  Iicon,
+  enveloppe,
+  left,
+  heartOutline,
+  share,
+  location,
+  chevronLeft,
+  chevronRight
+};
