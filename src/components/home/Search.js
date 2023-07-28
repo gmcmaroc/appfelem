@@ -5,139 +5,174 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Button,
   FlatList,
   Dimensions,
-  ScrollView,
   TextInput,
+  Keyboard
 } from "react-native";
 import {
   FontAwesome5,
 } from "@expo/vector-icons";
-import { home, searchGreen, group, enveloppe } from '../constants/icons'
+import {ifelem} from '../constants/icons';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from "react";
 import useFetch from '../../hook/useFetch';
+import MailComponent from "../contact/MailComponent";
+import PhoneComponent from "../contact/PhoneComponent";
+import UrlLink from "../contact/UrlLink";
 
-export default function Search({ navigation }) {
+
+
+export default function Search({ recieveData }) {
   const screenDimensions = Dimensions.get('screen');
   const { data, isLoading, error } = useFetch(`companies`)
   const [searchText, setSearchText] = useState('');
+  const [isSearching, setisSearching] = useState(false)
   const [filteredData, setFilteredData] = useState([]);
+  const navigation = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{
+          marginRight: 5, 
+          width: 40,
+          height: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          }}>
+            <TouchableOpacity style={{paddingRight: 10}} onPress={() => navigation.navigate("Home")}>
+          <Image
+          source={ifelem}
+          resizeMode='cover'
+          style={{width: 30,
+            height: 30,}}
+        />
+            </TouchableOpacity>
+        </View>
+        ),
+    });
+  })
 
-  const handleOpenPhoneDialer = async (phone) => {
-    const phoneNumber = phone; 
-    const phoneUrl = `tel:${phoneNumber}`;
-
-    try {
-      await Linking.openURL(phoneUrl);
-    } catch (error) {
-      console.error('Failed to open phone dialer:', error);
-    }
-  };
+  
   const handleSearch = (text) => {
+    if (text.length > 0) {
+      setisSearching(true)
+      recieveData(true)
+    } else  {
+      setisSearching(false)
+      recieveData(false)
+    }
     setSearchText(text);
-
     const filteredItems = data.filter((item) =>
-      item.company_name.toLowerCase().includes(text.toLowerCase())
+      item?.company_name.toLowerCase().includes(text.toLowerCase()),
     );
-
-    setFilteredData(filteredItems);
+        setFilteredData(filteredItems)
   };
 
-  const renderListItem = ({ item, index }) => (
-    <View key={index} style={{ marginTop: 15, width: screenDimensions.width }}>
-                    
-              <View style={{marginTop: 2, paddingHorizontal: 15}}>
-                <Text style={{fontSize: 20, fontWeight: 'bold'}}>{item.company_name}</Text>
-                <Text style={{fontSize: 18, color: 'grey', fontWeight: 'bold'}}>{item.description}</Text>
-
-        </View>
-            <View style={styles.home2}>
-                <Text style={{fontSize: 16}}>{item.phone}</Text>
-                <TouchableOpacity onPress={() => handleOpenPhoneDialer(item.phone)}>
-
-                <FontAwesome5  name="phone" size={20} color="#55a369"  />
-                </TouchableOpacity>
-        </View>
-            <View style={styles.home2}>
-                <Text style={{fontSize: 16}}>{item.email}</Text>
-            <FontAwesome5  name="sms" size={20} color="#55a369" />
-            </View>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: 15}}>
-
-            <View style={{ width: '80%', borderBottomWidth: 1, borderBottomColor: 'black'}}></View>
-            </View>
-            </View>
+  const renderListItem = ({ item }) => (
+    <MyListItem
+    item={item}
+  />
   );
-
+ 
+  const clearInput = () => {
+    setSearchText('')
+    Keyboard.dismiss()
+    recieveData(false)
+  }
   return (
-    <View style={{  flex: 1, backgroundColor: "#fff", alignItems: "center", width: screenDimensions.width}}>
-        <View style={{ width: '80%'}}>
+    <View style={{ flex: 1, backgroundColor: "#fff", alignItems: "center", width: screenDimensions.width}}>
+        <View style={{ position: 'relative', width: '85%'}}>
           <TextInput
             style={styles.input}
             placeholder="entreprises"
             placeholderTextColor="#666666"
             onChangeText={handleSearch}
             value={searchText}
-          />
+          /> 
+          {isSearching ? 
+          (
+              <FontAwesome5
+              onPress={() => clearInput()}
+                style={styles.icone}
+                name="times-circle"
+                size={18}
+                color="black"
+              />
+           ) : (  
           <FontAwesome5
             style={styles.icone}
             name="search"
-            size={20}
+            size={18}
             color="black"
-          />
+          /> 
+          )}
         </View>
         <View>
-          <Text style={styles.title1}>Recherchez sur notre app</Text>
+        <Text style={styles.title1}>Recherchez sur <Text style={{color: '#55a369', fontWeight: 'bold'}}>i-FELEM</Text></Text>
         </View>
         <View style={styles.home}>
-        <FlatList
-        data={filteredData}
-        renderItem={renderListItem}
-        keyExtractor={(item) => item.id.toString()}
-        style={styles.list}
-      />
+          {filteredData.length <= 0 && isSearching ?
+            <Text style={{fontSize: 18, fontWeight: 'bold', color: 'grey'}}>Pas de résultat</Text>
+          : (
+            <FlatList
+            data={filteredData}
+            renderItem={renderListItem}
+            keyExtractor={(item) => item.id.toString()}
+            style={styles.list}
+            /> 
+        )}
         </View>
       <StatusBar style="auto" />
-      <View style={{position: "absolute",
-    left: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    width: screenDimensions.width,
-    bottom: 0,
-    height: 55,
-    zIndex: 2
-    }}>
-        <TouchableOpacity activeOpacity={1}
-          style={styles.icon1}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Image source={home} style={styles.logofooter}/>
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={1}
-          style={styles.icon1}
-          onPress={() => navigation.navigate("Search")}
-        >
-          <Image source={searchGreen} style={styles.logofooter}/>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={1}
-          style={styles.icon1}
-          onPress={() => navigation.navigate("Partenaire")}
-        >
-          <Image source={group} style={styles.logofooter}/>
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={1}
-          style={styles.icon1}
-          onPress={() => navigation.navigate("ContactUs")}
-        >
-          <Image source={enveloppe} style={styles.logofooter}/>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
+
+const MyListItem = React.memo(({ item }) => {
+  const screenDimensions = Dimensions.get('screen');
+  let color = ''
+  if (item.subcategory_id <= 7) {
+    color = '#ee8922'
+  }
+  if (item.subcategory_id <= 20 && item.subcategory_id > 7) {
+    color = '#2b5fac'
+  }
+  if (item.subcategory_id <= 32 && item.subcategory_id > 20) {
+    color = '#7a69a4'
+  }
+  if (item.subcategory_id > 32) {
+    color = '#895874'
+  }
+  const tel = item.phone
+  const email = item.email
+    return (
+      <View key={item.id} style={{ marginTop: 15, width: screenDimensions.width, marginBottom: 20 }}>
+              
+               <View style={{marginTop: 4, paddingHorizontal: 15}}>
+                    <Text style={{fontSize: 17, fontWeight: 'bold', backgroundColor: color, color: 'white', textAlign: 'center', paddingHorizontal: 4}}>{item?.company_name.toUpperCase()}</Text>
+                      </View>
+                      <View style={{marginTop: 8,
+                      paddingHorizontal: 25,
+                      borderRadius: 14,
+                      display: "flex",
+                      width: '100%',
+                      flexDirection: 'row',
+                      alignItems: "center",
+                      justifyContent: "space-between"}}>
+                    <Text style={{fontSize: 16, color: 'grey', fontWeight: 'bold' , maxWidth: "80%" }}>{item.adresse}</Text>
+                    <FontAwesome5  name="map-marker-alt" style={{marginRight: 2}} size={20} color="#56a56b"  />
+                      </View>
+                  <View style={{marginTop: 2, paddingHorizontal: 10}}>
+                  
+    
+            <PhoneComponent shouldRender={tel} />
+            <MailComponent shouldRender={email} />
+            <UrlLink shouldRender={item.siteweb} />
+            </View>
+              </View>
+    );
+});
+
 
 const styles = StyleSheet.create({
   list: {
@@ -295,7 +330,7 @@ logofooter:{
   },
   icone: {
     position: "absolute",
-    top: "30%",
+    top: "38%",
     right: "10%",
   },
 });

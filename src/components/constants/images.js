@@ -11,8 +11,13 @@ const viedelafiliere = require('../../../assets/images/viedelafiliere.png')
 const AGROFORNITURE = require('../../../assets/images/AGROFORNITURE.png')
 const VALPLAST = require('../../../assets/images/VALPLAST.png')
 const BANNIERCARREFOUR = require('../../../assets/images/BANNIERCARREFOUR.gif')
+const gmclogo = require('../../../assets/images/gmclogo.png')
+const FRUITLOGISTICA = require('../../../assets/images/INSERTION-FRUIT-LOGISTICA.png')
 
 export {
+    FRUITLOGISTICA,
+    gmclogo,
+    AgricultureduMaghreb,
     VALPLAST,
     BANNIERCARREFOUR,
     AGROFORNITURE,

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "iFELEM App",
+    "name": "i-FELEM",
     "slug": "iFELEMApp",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "sdkVersion": "48.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,11 +19,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.iFELEM.Application"
     },
     "android": {
       "package": "com.iFELEM.Application",
-      "versionCode": 1,
+      "versionCode": 10,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

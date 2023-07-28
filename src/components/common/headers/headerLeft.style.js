@@ -9,15 +9,13 @@ const styles = StyleSheet.create({
   },
   displayflex:{
     display: "flex",
+    backgroundColor: "black",
     flexDirection: "row",
     justifyContent:"space-between"
   },
-  marginleft: {
-    marginLeft: 15
-  },
   btnImg:  {
-    width: 30,
-    height: 30,
+    width: "100%",
+    height: "100%",
   },
 });
 

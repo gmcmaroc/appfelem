@@ -1,40 +1,44 @@
 
 import { Dimensions, StyleSheet, Text, View, Image,TouchableOpacity} from 'react-native';
 import {icons, images} from '../../constants'
-
-
-export default function Footer  ({navigation, home, search, group, mail}) {
+import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from "expo-status-bar";
+export default function Footer  ({ home, search, group, mail, display}) {
     const screenDimensions = Dimensions.get('screen');
+    const navigation = useNavigation();
     return (
-        <View style={{position: "absolute",
-    left: 0,
-    flexDirection: "row",
-    justifyContent: "center",
-    width: screenDimensions.width,
-    bottom: 0,
-    height: 55,}}
-    >
-        <TouchableOpacity
+      <View style={{
+        display: display,
+        position: "absolute",
+        left: 0,
+        flexDirection: "row",
+        justifyContent: "center",
+        width: screenDimensions.width,
+        bottom: 0,
+        zIndex: 2}}
+        >
+        <StatusBar style="auto" />
+        <TouchableOpacity activeOpacity={1}
           style={styles.icon1}
           onPress={() => navigation.navigate("Home")}
         >
           <Image source={home} style={styles.logofooter}/>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={1}
           style={styles.icon1}
-          onPress={() => navigation.navigate("Food")}
+          onPress={() => navigation.navigate("Search")}
         >
           <Image source={search} style={styles.logofooter}/>
         </TouchableOpacity>
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={1}
           style={styles.icon1}
-          onPress={() => navigation.navigate("Product")}
+          onPress={() => navigation.navigate("Partenaire")}
         >
           <Image source={group} style={styles.logofooter}/>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        <TouchableOpacity activeOpacity={1}
           style={styles.icon1}
           onPress={() => navigation.navigate("ContactUs")}
         >
@@ -48,19 +52,15 @@ export default function Footer  ({navigation, home, search, group, mail}) {
 
 const styles = StyleSheet.create({
     icon1: {
-      backgroundColor : "#fff",
-      alignItems : 'center',
-      padding : 12,
-      // borderRadius:10,
-      // marginLeft : 5,
-      justifyContent:'center',
-      width : 100,
-      // borderWidth: .4,
-      // borderColor: "#56a56b",
+    backgroundColor : "#fff",
+    alignItems : 'center',
+    padding : 10,
+    justifyContent:'center',
+    width : 100,
     },
   logofooter:{
-    width : 30,
-    height :30
+    width : 28,
+    height : 28
   },
   
     

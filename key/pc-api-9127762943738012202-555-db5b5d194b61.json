@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "pc-api-9127762943738012202-555",
+  "private_key_id": "db5b5d194b61d0b3217cfa8210daa8c8993e8626",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDg6bzeSXAw0NQC\nd0N6uqMEF9NKOuMaSbtCxZtYqcJngNxe6xgVzW/EDH5e8Tz5RNrmxF4jaltHylV7\nIYrcKJLOfCBhkQhFh24H1FJdptWkySWD78zZfW7zV31OonSN07nuws9XgM2GoTf4\np8R+EMhRkH8K0QpyMBf5SbNZiSnswGM1u6+ylvgTHH23HcbwmZJaY7jvRCjE9KHs\nRkleK7duR2n7D6ApT599w3E4zQEqrVdwJgQU092OL7D8s8sdSptpX+JGyUa8M0Rj\nCtPrUANotg3DN7zWPO13ZUNbDLT1w0SLxM6TRVYORApAEIl4H5kIaVdybazWsaDq\nGX6QSMPxAgMBAAECggEAOivqSBn5dP7GHv8mylr0Z84bvYK+k2GHmA0REV0S5X9c\nQAaRO65fXncWxkqhyR0IexBGAuXyxv4rnsW9qxSpZ9ON8n43A/izuj2tsgBBGLZX\nyCihNI1vQWwbAlgdSkN9PyZOx2SOg+g12E/YD/0aOpJjcXJAv+j1gmoQA7Pozo01\nzfMFGYEkBQ/Rn7MvJOpCJyqYx2hp3nxDknv7wY1QMKiUbXcu5eT05XpL0xrwt/yv\nPkLxQTodrsnX5sBthXPR6LoVwSxGQ3srqS6nCWNFHHhWBf7CBIb4IfP/7hnY/wMD\nhNRO8lQwHMOgpfvMSxjwTU3/Fv/kkwiksRyB9kM+CwKBgQD3H1JpX/ElWsuoRsnp\ngyk5O94wqegP1wcKXSLpqz+4FGW+T3WxYFG/ITCNHHEGAI5PyUgUyLzL0S380K3/\nLA74HujkpznWvyQinAyEA7iWkVoBrT/Wtgn1SpxAf9WYR9e1cL+6bslxyNNUrCM0\nzYJZhCMmNoj+oEIm/Jvf8N9BDwKBgQDo/iqVDal+JCjkPy2uDGuBs5rpQOTbSfKL\nfP3HgemINJ5skAWcN4nxZBmBWuVfukV2iZJ++5JNTDImlO/TVFMnrmpMDkdK1t14\nx3rBgd6Y3L6X07c2pF0oHMY0LEhtCTOJ2iX7x5Wob0dpeSDCVkbWxm1wQ/so8Gh1\nJr/83h2q/wKBgQCPhIxLEGIvLIzsXLg0umy9hYxjvLk+QcYf+bkl9cOat5XjMaiL\nbAHtu2vD+AmXz8jWg3IuR+qFgCVyFwuGD2NeLC1bZdcMZZOp2fDW1oZkQ2P/Z0uU\n+cHMyBj4yIUW3FplUGa48lBhmZ1KJnKH3vZd4IS9U5y6K/5fQAOSygQOdwKBgQDN\niHFd/ahYO2PLPaR5VkF8MElmnLWGcOxCeqeQ2Jx/aBOdJ0ubrC7GwAvz3ZBcawCd\n+ew+koRUJfRTrq0FmuykI6tnnmzrqzHCOw6iJ4OLC6giXUTRMhtvqDp8idf2P9i0\nMbmyKzVtWYUAmTb52IwzKOYf1Ah66+Dp/537XqGDVwKBgDU4EwSKRVsnFqZ8kVI+\nyfl2LuzHP3qUggMNn6kBc6DYF8t2AmYNwVYrBirMKWZ50OcCzcSMxNjie0CyH6RH\nTlNWBxo0vVWuw+znVTNpa0BUnjmqMB1XqyXGQbBUN15NxAGq0wrlyPzTYU0Quc1Y\nHZHsDhMpK0I7j5dUvQYHWt2M\n-----END PRIVATE KEY-----\n",
+  "client_email": "ifelem-app@pc-api-9127762943738012202-555.iam.gserviceaccount.com",
+  "client_id": "114311563076504438201",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ifelem-app%40pc-api-9127762943738012202-555.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -4,104 +4,187 @@ import {
   Text,
   View,
   Image,
-  ToastAndroid,
   TouchableOpacity,
-  Clipboard,
+  Alert,
   Dimensions,
+  Linking,
+  ScrollView,
+  ActivityIndicator,
+  RefreshControl
  
 } from "react-native";
 import { FontAwesome5} from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import { useRoute } from '@react-navigation/native';
-import { Linking } from 'react-native';
+import useFetch from '../../hook/useFetch';
+import Loader from '../common/loader/Loader';
 
-export default PartenaireId = ({partenaires}) => {
+
+const PartenaireId = () => {
   const screenDimensions = Dimensions.get('screen');
     const route = useRoute();
-    const { partenaireId } = route.params;
-    const [Partenaire, setPartenaire] = useState(null);
-  
-    const fetchPartenaireDetails = (partenaireId) => {
+    const { data, isLoading, error, refetch } = useFetch(`advertisers/${route.params.partenaireId}`)
 
-        const array = partenaires.dataPartenaire
-        const selectedPartenaire = array.find((partenaire) => partenaire.id === partenaireId);
+      const  OpenGmail = (email) => {
+        const url = `mailto:${email}`;
+        Linking.canOpenURL(url)
+        .then((supported) => {
+          if (supported) {
+            return Linking.openURL(url);
+          } else {
+            throw new Error('Gmail is not installed');
+          }
+        })
+        .catch((error) => {
+          console.error("Échec de l'ouverture de Gmail :", error);
+          Alert.alert('Error', "Échec de l'ouverture de Gmail. Veuillez vous assurer qu'il est installé sur votre appareil.");
+        });
+      }
 
-        setPartenaire(selectedPartenaire);
+      const handleOpenPhoneDialer = async (phone) => {
+            const phoneNumber = phone; 
+            const phoneUrl = `tel:${phoneNumber}`;
+            Linking.canOpenURL(phoneUrl).then((supported) => {
+              if (supported) {
+                Linking.openURL(phoneUrl);
+              } else {
+                alert("Numérotation téléphonique non prise en charge sur cet appareil.");
+              }
+            });
+        
+            // try {
+            //   await Linking.openURL(phoneUrl);
+            // } catch (error) {
+            //   console.error("Échec de l'ouverture du numéroteur téléphonique :", error);
+        
+            // }
+          };
+
+      const openLink = (item) => {
+        const http =  item.includes('https://')
+        if(http) {
+          const  url = item; 
+           Linking.openURL(url)
+             .catch((error) => console.error('Failed to open link:', error)); 
+         } else {
+          const  url = 'https://'+item
+           Linking.openURL(url)
+             .catch((error) => console.error('Failed to open link:', error));
+         }
       };
 
-      useState(() => {
-        fetchPartenaireDetails(partenaireId);
-      }, [partenaireId, partenaires]);
-
-      const handleCopyText = (text) => {
-        const textToCopy = text;
-
-        Clipboard.setString(textToCopy);
-    
-        ToastAndroid.show('Texte copié dans le presse-papiers', ToastAndroid.SHORT);
-      };
-
-      if (!Partenaire) {
+      if (!data) {
         return (
-          <View>
+          <View style={{backgroundColor: "white"}}>
             <Text style={{fontSize: 25}}>Loading...</Text>
           </View>
         );
       }
-    return (
-        <View style={styles.container}>
-            <View style={{width: "100%", marginTop: 20, height: 250, paddingHorizontal: 5}}>
-            <Image source={Partenaire.logo} style={{width: "100%", height: '100%'}}/>
-            </View>
-            <View style={{marginTop: 10}}>
-                <Text style={{fontWeight: 'bold' , fontSize: 20}}>{Partenaire.company_name}</Text>
-                <Text style={{fontWeight: 'bold' , fontSize: 15, color: 'grey'}}>{Partenaire.adresse}</Text>
-                <Text style={{fontWeight: 'bold' , fontSize: 14}}>derigent: {Partenaire.dirigent}</Text>
-            </View>
-            <View >
-                <Text style={{fontWeight: 'bold' , fontSize: 14}} >a propos de nous</Text>
-                <Text style={{fontWeight: 'bold' , fontSize: 14, color: 'grey'}}>{Partenaire.description} </Text>
-            </View>
-    <View style={{width: '100%', paddingRight: 10}}>
 
-            <TouchableOpacity onPress={() => handleCopyText(Partenaire.email)}>
-          <View style={styles.home}>
+      if(isLoading) {
+        return(
+          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: screenDimensions.height - 400}}>
 
-           <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
-          <Text style={{color: "white", fontWeight: 'bold'}}>{Partenaire.email}</Text>
-          </View>
-
-          <FontAwesome5  name="envelope" size={20} color="white" />
-
-           </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleCopyText(Partenaire.phone)}>
-           <View style={styles.home}>
-           <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
-          <Text style={{color: "white", fontWeight: 'bold'}}>{Partenaire.phone} </Text>
-          </View>
-          <FontAwesome5  name="phone" size={20} color="white" />
-
-
-           </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => Linking.openURL(Partenaire.siteweb)}>
-           <View style={styles.home}>
-
-           <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
-          <Text style={{color: "white", fontWeight: 'bold'}}>{Partenaire.siteweb} </Text>
-          </View>
-
-          <FontAwesome5  name="globe" size={20} color="white" />
-
-           </View>
-            </TouchableOpacity>
-            </View>
-
+          <Loader />
         </View>
-    )
-}
+        )
+      } else {
+        return(
 
+          <>
+            <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false} 
+             refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={refetch}
+                colors={['#55a369']}
+                  progressBackgroundColor="#fff"
+              />
+            }
+            > 
+            <View style={{
+              width: "100%",
+               height: 200,
+                marginTop: 20,
+                display: "flex",
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingBottom: 15
+                 }}>
+                <Image source={{ uri: `https://app.carrefourdemanutention.com/public/advertisers/${data?.logo}`}} resizeMode="contain" style={{width: "60%", height: undefined, aspectRatio: 1}}/>
+                </View>
+                <View style={{marginTop: 10}}>
+                    <Text style={{fontWeight: 'bold' , fontSize: 20}}>{data?.company_name}</Text>
+                    <Text style={{fontWeight: 'bold' , fontSize: 15, color: '#696969'}}>{data?.adresse}</Text>
+                    <Text style={{fontWeight: 'bold' , fontSize: 14}}>derigent: {data.dirigent}</Text>
+                </View>
+                <View >
+                    <Text style={{fontWeight: 'bold' , fontSize: 14}} >a propos de nous</Text>
+                    <Text style={{fontWeight: 'bold' , fontSize: 14, color: '#696969'}}>{data?.description} </Text>
+                </View>
+                <View style={{width: '100%', paddingRight: 10, paddingBottom:20}}>
+                {data?.email !== null ? 
+                <TouchableOpacity onPress={() => OpenGmail(data?.email)}>
+              <View style={styles.home}>
+    
+               <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
+              <Text style={{color: "white", fontWeight: 'bold'}}>{data?.email}</Text>
+              </View>
+    
+              <FontAwesome5  name="envelope" size={20} color="white" />
+    
+               </View>
+                </TouchableOpacity>
+                : (
+                  null
+                ) }
+
+                {data?.phone !== null ? 
+                <TouchableOpacity onPress={() => handleOpenPhoneDialer(data?.phone)}>
+               <View style={styles.home}>
+               <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
+              <Text style={{color: "white", fontWeight: 'bold'}}>{data?.phone} </Text>
+              </View>
+              <FontAwesome5  name="phone" size={20} color="white" />
+    
+    
+               </View>
+                </TouchableOpacity>
+                :(
+                  null
+                )
+                }
+
+                {data?.siteweb !== null ? 
+                <TouchableOpacity onPress={() => openLink(data?.siteweb)}>
+               <View style={styles.home}>
+    
+               <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '70%'}}>
+              <Text style={{color: "white", fontWeight: 'bold'}}>{data?.siteweb} </Text>
+              </View>
+    
+              <FontAwesome5  name="globe" size={20} color="white" />
+    
+               </View>
+                </TouchableOpacity>
+                :(
+                 null
+                )
+
+              }
+                </View>
+                </ScrollView>
+               
+    
+            </View>
+          </>
+        )
+      }
+
+}
+export default PartenaireId
 const styles = StyleSheet.create({
     icon1: {
       backgroundColor : "#fff",
@@ -116,9 +199,10 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
-      backgroundColor: "#fff",
-      paddingLeft: 15,
-      marginTop: 15
+      backgroundColor: "white",
+      paddingHorizontal: 15,
+      paddingTop: 15
+
       
     },
     home : {

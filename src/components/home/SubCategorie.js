@@ -1,65 +1,94 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from "react";
-import { Dimensions, StyleSheet, Text, View, Image,TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-import {agroforniture, iriser, Export, BANNIERCARREFOUR} from '../../components/constants/images'
-import { rightChevronWhite} from '../../components/constants/icons'
+import { Dimensions, StyleSheet, Text, View, Image,TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import useFetch from '../../hook/useFetch';
 import {FontAwesome5} from "@expo/vector-icons";
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import Time from './time/Time';
+import {ifelem} from '../constants/icons';
+import Loader from '../common/loader/Loader';
 
 export default function SubCategorie() {
+  const screenDimensions = Dimensions.get('screen');
     const navigation = useNavigation();
+    const [nameCategorie, setNameCategorie] = useState('')
     const route = useRoute();
-    const { data, isLoading, error } = useFetch(`categories/${route.params.categorieID}`);
+    const { data, isLoading, error, refetch } = useFetch(`categories/${route.params.categorieID}`);
     const color = data.color
+    const [filteredData, setFilteredData] = useState([]);
+    const handleNavigatePress = (categorie) => { 
+      categoriename = categorie.name.toUpperCase()
+    navigation.navigate('Companies', {categorie ,categoriename, color});
+    };
 
-    const date = (time) => {
-    const newdate = new Date(time)
-    const mydate = newdate.getUTCDate() + '-' + newdate.getMonth() + '-' + newdate.getFullYear()
-    return mydate
-  }
+    const headerTitle  = route.params?.nameCategorie;
+    const colorofCategorie = route.params?.colorCategorie
 
-  const handleNavigatePress = (categorieID) => { 
-    navigation.navigate('Companies', {categorieID});
-  };
-  
-  return (
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: headerTitle,
+      headerTitleStyle: {
+        color: colorofCategorie,
+        fontSize: 18
+      },
+      headerRight: () => (
+        <Image
+              source={ifelem}
+              resizeMode='cover'
+              style={styles.btnImg}
+            />
+      )
+    });
+  }, [navigation, headerTitle]);
+
+    return (
 
     <View style={styles.container}>
-    <ScrollView showsVerticalScrollIndicator={false}>  
-      <StatusBar style="auto" />
-       <View style={styles.header}>
-      <Text style={{ textAlign: "center", color: '#05375a', fontSize: 20, fontWeight: "300", }}>Categorie </Text>
-      <Text style={{textAlign: "center" , fontSize: 23, fontWeight: 'bold', color: '#55a369'}}>{data.name}</Text>
-      </View>
-      <View style={{padding: 10}}>
+    <ScrollView showsVerticalScrollIndicator={false}
+    refreshControl={
+      <RefreshControl
+        refreshing={isLoading}
+        onRefresh={refetch}
+        colors={['#55a369']}
+        progressBackgroundColor="#fff"
+      />
+    }
+    >  
+    <View>
+     
+
+      <View style={{padding: 10, backgroundColor: "white"}}>
       {isLoading ? (
-          <ActivityIndicator size='large' color='#00ff00' />
+         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: screenDimensions.height - 400}}>
+
+         <Loader />
+       </View>
         ) : error ? (
-          <Text>Something went wrong</Text>
+          <Text>Quelque chose s'est mal passé.</Text>
         ) : (
         data.subcategories?.map((item, index) => {
+          if (item.id !== 7 && item.id !== 44 && item.id !== 45) {
             return (
-              <TouchableOpacity key={item.id} activeOpacity={0.8} onPress={() => handleNavigatePress(item.id)}>
+              <TouchableOpacity style={{marginTop: 5}} key={item.id} activeOpacity={0.8} onPress={() => handleNavigatePress(item)}>
               <View  style={{ height: 'auto', borderColor: color, marginTop: 8, borderWidth: 1, padding: 10,
                 borderRadius: 12}} >
         <View style={styles.head}>
           <View style={{ width: "85%"}}>
-          <Text style={{fontSize: 20, color: color}}>{item.name}</Text>
-            <Time date={item.created_at}/>
+          <Text style={{fontSize: 18, color: color}}>{item?.name.toUpperCase()}</Text>
+            {/* <Time date={item?.created_at}/> */}
           </View>
 
-        <FontAwesome5  name="chevron-right" size={25} color={color}  />
+        <FontAwesome5  name="chevron-right" size={20} color={color}  />
         </View>  
       </View>
         </TouchableOpacity>
             )
+          }
         })
         
       )}
       </View>
+    </View>
      
     </ScrollView>
     </View>
@@ -69,6 +98,10 @@ export default function SubCategorie() {
 }
 
 const styles = StyleSheet.create({
+  btnImg:  {
+    width: 30,
+    height: 30,
+  },
   icon1: {
     backgroundColor : "#fff",
     alignItems : 'center',
@@ -95,6 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    minHeight: 40
   },
   content: {
     marginTop: 30,
@@ -104,7 +138,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor : '#fff'
+    backgroundColor : '#fff',
+    paddingVertical: 15
   },
   homeimage: {
     borderWidth: 1, 

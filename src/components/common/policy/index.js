@@ -52,7 +52,7 @@ const Index = () => {
               <Text style={styles.title}>Changements </Text>
               <Text style={styles.text}>Cette Politique de Confidentialité peut être amenée à évoluer de temps en temps, pour quelque raison que ce soit. 
                 Nous vous informerons alors de toute modification de celle-ci en publiant la nouvelle Politique de Confidentialité
-                 sur la page http://www.felem.ma/ et en vous informant via l'application mobile. Vous êtes avisé de consulter régulièrement
+                 sur la page https://www.felem.ma/ et en vous informant via l'application mobile. Vous êtes avisé de consulter régulièrement
                   cette Politique de Confidentialité, car l'utilisation continue signifie un accord avec tout changement. </Text>
                   <Text style={styles.title}>Votre consentement </Text>
                   <Text style={styles.text}>En utilisant nos applications, vous consentez à notre traitement de vos données, ainsi qu'expliqué dans cette Politique 

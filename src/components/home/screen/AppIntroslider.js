@@ -1,26 +1,29 @@
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { StyleSheet, Text, View, Image,Button, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image,Button, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import Policy from '../../common/policy'
 import { check, rightChevronWhite } from '../../constants/icons';
 import { EXPORTATION, agrofournitures, servicesicon, viedelafiliere } from '../../constants/images';
 import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5 } from "@expo/vector-icons";
 
-const AppIntro = () => {
+const AppIntro = ({onDataReceived }) => {
   const screenDimensions = Dimensions.get('screen');
   const navigation = useNavigation();
-      const renderItem = ({ item , index}) => {
+  const [show, setshow] = useState(false)
+      const renderItem = ({item , index}) => {
         if (item.key !== 's5' ) {
           return (
-            <View style={{width: screenDimensions.width ,backgroundColor: item.backgroundColor, display: 'flex', flexDirection: 'column',
+            <View style={{width: screenDimensions.width,maxHeight: screenDimensions.height, backgroundColor: item.backgroundColor, display: 'flex', flexDirection: 'column',
             alignItems: 'center', width: "100%", height: "100%"}} key={index}>
-              <View style={{height: "100%", margin: 'auto',}}>
+              <View style={{height: screenDimensions.height, margin: 'auto',}}>
               <Image key={index} source={item.image} style={{height: 200, width:280, marginTop: "40%"}}/>
               <Text style={{fontSize: 18, color: 'white', paddingVertical: 30, textAlign: 'center'}}>{item.text}</Text>
               </View>
             </View>
           );
-        } else {
+        }
+        else {
           return (
           <View style={{backgroundColor: item.backgroundColor}} key={index}>
               <Policy />
@@ -28,6 +31,7 @@ const AppIntro = () => {
           )
         }
       }
+
       const renderNextButton = () => {
         return (
           <View style={styles.buttonCircle}>
@@ -39,30 +43,34 @@ const AppIntro = () => {
           </View>
         );
       };
+      
       const handleContactUsPress = () => {
-        navigation.navigate('Home');
+        const newData = true;
+        setshow(newData);
+        onDataReceived(newData);
       };
+
       const renderDoneButton = () => {
-        handleContactUsPress()
         return (
-          <View style={styles.buttonCircle}>
-           <Image
-        source={check}
-        resizeMode='cover'
-        style={styles.iconscreen}
-        />
+            <TouchableOpacity onPress={() => handleContactUsPress()}>
+          <View style={styles.buttonDone}>
+            <FontAwesome5 name="check" size={25} color="white" />
           </View>
+            </TouchableOpacity>
         );
       };
 
       return (
-        <AppIntroSlider
-      data={slides}
-      renderItem={renderItem}
-      renderDoneButton={renderDoneButton}
-      renderNextButton={renderNextButton}
-      showSkipButton={true}
-      />
+        <>
+          <AppIntroSlider
+        data={slides}
+        renderItem={renderItem}
+        renderDoneButton={renderDoneButton}
+        renderNextButton={renderNextButton}
+        showSkipButton={true}
+        onSkip={() => handleContactUsPress()}
+        />
+        </>
       )
 }
 
@@ -78,10 +86,23 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    buttonDone: {
+      width: 40,
+      height: 40,
+      backgroundColor: 'rgba(22, 160, 133, .8)',
+      borderRadius: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+
+    },
     iconscreen: {
       width : 25,
       height :25
     },
+    iconcheck: {
+      width : 25,
+      height: 25
+    }
     
   });
 
@@ -114,10 +135,5 @@ const styles = StyleSheet.create({
       key: 's5',
       text: <Policy />,
       backgroundColor: '#fff',
-    },
-    {
-      key: 's6',
-      text: '',
-      backgroundColor: '',
     },
   ];

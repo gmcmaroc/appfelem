@@ -1,92 +1,114 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image,Button, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HeaderLeft from './src/components/common/headers/HeaderLeft'
-import HeaderRight from './src/components/common/headers/HeaderRight'
-import {check, rightArrow, ifelem} from './src/components/constants/icons';
-import Home from "./src/components/home/Home";
+import ExitConfirmationModal from './src/components/common/Exit/Exit';
 import AppIntro from './src/components/home/screen/AppIntroslider';
 import Search from "./src/components/home/Search";
 import ContactUs from './src/components/home/ContactUs';
-import  Partenaire from "./src/components/home/Partenaire";
-import PartenaireId from './src/components/home/PartenaireId';
-import dataPartenaire from './src/components/constants/data';
-import SubCategorie from './src/components/home/SubCategorie';
-import Companies from './src/components/home/Companies';
+import HomeStack from './src/components/home/screen/HomeStack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import PartenaireStack from './src/components/home/screen/PartenaireStack';
+import { loop, searchGreen, home, homeGreen, group, groupGreen, enveloppe, mailGreen} from './src/components/constants/icons'
 
-const Stack = createNativeStackNavigator();
+function CustomTabBarButton({ accessibilityState, children, onPress }) {
+  const isActive = accessibilityState?.selected;
+  
+  return (
+    <TouchableOpacity activeOpacity={1}
+    style={[styles.tabBarButton, isActive && styles.tabBarButtonActive]}
+    onPress={onPress}
+  >
+    {children}
+  </TouchableOpacity>
+  );
+}
+
+const Tab = createBottomTabNavigator();
 
 const  App = () => {
+const [showRealApp, setshowRealApp] = useState(false)
+const [searching, setsearching] = useState(false)
+
+
+const handleSearch = (data) => {
+  setsearching(data);
+};
+const handleShowData = (data) => {
+  setshowRealApp(data);
+};
+  
   return (
     <>
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="AppIntro">
-      <Stack.Screen name='AppIntro' component={AppIntro} options={{headerShown: false}}/>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerLeft: () => {
-            return (
-              <HeaderLeft />
-            )
-           },
-           headerRight: () => {
-            return (
-              <HeaderRight />
-            )
-           },
-           headerTitle: ""
-          }}
-          
-        />
-        <Stack.Screen name='SubCategorie' options = {{headerRight: () => (
-              <Image source={ifelem} resizeMode='cover' style={styles.btnImg} />), headerTitle: "précedent" }} component={SubCategorie} />
-  
-         <Stack.Screen name="Search" component={Search} options = {{headerRight: () => (
-              <Image
-              source={ifelem}
-              resizeMode='cover'
-              style={styles.btnImg}
-            />
-           
-            ),
-            headerTitle: "Recherche"
-          }} /> 
+    <NavigationContainer  >
+    {showRealApp ? (
+      <Tab.Navigator
+      initialRouteName="AppIntro"
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: '#55a369',
+        tabBarStyle: searching ? styles.tabBarnone : styles.tabBar,
+        tabBarLabelStyle: styles.tabLabel,
+        tabBarButton: (props) => <CustomTabBarButton {...props} />,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let rn = route.name;
 
-          <Stack.Screen name='Companies' options = {{headerRight: () => (
-              <Image source={ifelem} resizeMode='cover' style={styles.btnImg} />), headerTitle: "précédent" }} component={Companies} />
+          if (rn === "HomeStack") {
+            iconName = focused ? homeGreen : home;
+
+          } else if (rn === "PartenaireStack") {
+            iconName = focused ?  groupGreen : group;
+
+          } else if (rn === "Recherche") {
+            iconName = focused ? searchGreen : loop;
+          } else if (rn === "Contactez nous") {
+            iconName = focused ? mailGreen : enveloppe;
+          }
+          return <Image source={iconName} style={{width : 26, height : 26}}/>
+        },
+      })}
+      >
+    <Tab.Screen
+        name="HomeStack"
+        component={HomeStack}
+        options={{
+          tabBarLabel: 'Accueil',
+          header: ()  => { return null },
+        }}
+      />
+
+       <Tab.Screen name="Recherche" 
+       options = {{
+        tabBarVisible: !searching,
+        tabBarLabel: 'Recherche',
+          headerTitle: "Recherche"
+        }} >
+          {(props) => <Search recieveData={handleSearch} />}
+          </Tab.Screen> 
 
 
-         <Stack.Screen name="Partenaire" component={Partenaire} options = {{headerRight: () => (
-              <Image
-              source={ifelem}
-              resizeMode='cover'
-              style={styles.btnImg}
-            />
-           
-            ),
-            headerTitle: "Partenaires"
-          }} 
-            />  
-          <Stack.Screen name="PartenaireId" options = {{headerRight: () => (
-              <Image source={ifelem} resizeMode='cover' style={styles.btnImg} />), headerTitle: "précedent" }} > 
-            {(props) => <PartenaireId { ...props} partenaires={dataPartenaire} />}
-            </Stack.Screen>
-        <Stack.Screen name='ContactUs' component={ContactUs} options = {{headerRight: () => (
-              <Image
-              source={ifelem}
-              resizeMode='cover'
-              style={styles.btnImg}
-            />
-           
-            ),
-            headerTitle: "Contactez nous"
-          }} />
-      </Stack.Navigator>
-      </NavigationContainer>
+
+        <Tab.Screen
+        name="PartenaireStack"
+        component={PartenaireStack}
+        options={{
+          tabBarLabel: 'Partenaires',
+          header: ()  => { return null },
+        }}
+      />
+
+      
+      <Tab.Screen name='Contactez nous' component={ContactUs}
+       options = {{
+        tabBarLabel: "Contactez nous",
+        }} />
+    </Tab.Navigator>
+   ) 
+   : ( 
+  <AppIntro  onDataReceived={handleShowData} /> 
+   ) 
+    
+ } 
+  </NavigationContainer>
     </>
 
   );
@@ -102,22 +124,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  buttonCircle: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'rgba(0, 0, 0, .2)',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoimage: {
-    width : 40,
-    height :40
-},
-iconscreen: {
-  width : 25,
-  height :25
-},
   button: {
     flexDirection : 'row',
    justifyContent : 'center',
@@ -125,34 +131,34 @@ iconscreen: {
    backgroundColor: "blue",
    width: 350
   },
-  introImageStyle: {
-    width: 200,
-    height: 200,
-  },
-  introTextStyle: {
-    fontSize: 18,
-    color: 'white',
-    textAlign: 'center',
-    paddingVertical: 30,
-  },
-  introTitleStyle: {
-    fontSize: 25,
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 16,
-    fontWeight: 'bold',
-  },
-  slide:{
-    width: "100%",
-    backgroundColor: 'green',
-    height: "100%"
-  },
   title: {
     fontSize: 25,
     color: 'white',
     textAlign: 'center',
     marginBottom: 16,
     fontWeight: 'bold',
+  },
+  tabBar: {
+    backgroundColor : "#fff",
+    alignItems : 'center',
+    height: 50,
+    justifyContent:'center',
+  },
+  tabBarnone: {
+    display: 'none',
+  },
+  tabLabel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  tabBarButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabBarButtonActive: {
+    borderTopColor: '#55a369',
+    borderTopWidth: 1,
   },
 
 });
