@@ -11,7 +11,7 @@ import {
     RefreshControl,
     Dimensions
    } from 'react-native';
-   import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import MailComponent from '../contact/MailComponent';
 import PhoneComponent from '../contact/PhoneComponent';
 import useFetch from '../../hook/useFetch';
@@ -144,7 +144,12 @@ export default function Companies () {
                   <View key={index} style={{ marginTop: 15, paddingBottom: 15 }}>
                     <View style={{marginTop: 4, paddingHorizontal: 15}}>
                   <Text style={{fontSize: 17, fontWeight: 'bold', backgroundColor: data.category.color, color: 'white', textAlign: 'center', paddingHorizontal: 4}}>{item?.company_name.toUpperCase()}</Text>
+                  {item.description !== null && item?.description !== '-' ?
                   <Text style={{fontSize: 16, color: 'black', fontWeight: 'bold' , textAlign: 'center', paddingHorizontal:5 }}>{item?.description}</Text>
+                  : (
+                    null
+                  )
+                }
                     </View>
                     <View style={{marginTop: 8,
                     paddingHorizontal: 25,

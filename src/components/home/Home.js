@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { Modal, Dimensions, StyleSheet, Linking, Alert, Text, View, Image, TouchableOpacity, ScrollView, RefreshControl, BackHandler } from 'react-native';
-import { iriser, BANNIERCARREFOUR} from '../../components/constants/images'
+import { iriser, BANNIERCARREFOUR, FRUITLOGISTICA} from '../../components/constants/images'
 import useFetch from '../../hook/useFetch';
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
 import Icon from "@expo/vector-icons/Ionicons";
-import {FRUITLOGISTICA} from '../constants/images'
 import Loader from '../common/loader/Loader';
 import {chevronRight} from '../constants/icons'
 import NotConnected from '../common/Notconnected/NotConnected';
@@ -102,10 +101,10 @@ useEffect(() => {
         <View style={styles.modalContainer}>
           <View style={styles.FirstmodalContent}>
             <TouchableOpacity style={styles.closebutton}  onPress={() => setFirstModal(false)}>
-            <Icon style={{marginLeft: 10}}  name="close-circle" size={30} color="white"  />
+            <Icon style={{marginLeft: 10}}  name="close-circle" size={35} color="white"  />
             </TouchableOpacity>
-            <TouchableOpacity style={{ height: "100%", width: "100%"}} onPress={() => Linking.openURL('https://www.fruitlogistica.com/')}>
-            <Image source={FRUITLOGISTICA} style={{ height: "100%", width: "100%"}} />
+            <TouchableOpacity style={{ height: "100%", width: "100%", borderRadius: 8, padding: 2 , backgroundColor: 'white'}} onPress={() => Linking.openURL('https://www.fruitlogistica.com/')}>
+            <Image source={FRUITLOGISTICA} resizeMode="contain" style={{width: "100%", height: "100%", borderRadius: 8}} />
             </TouchableOpacity>
           </View>
         </View>
@@ -117,7 +116,6 @@ useEffect(() => {
         <View style={{padding: 8}}>
         {isLoading ? (
           <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: screenDimensions.height - 400}}>
-
             <Loader />
           </View>
           ) : error ? (
@@ -176,19 +174,20 @@ useEffect(() => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              height: screenDimensions.height - 10
+              backgroundColor: 'rgba(0, 0, 0)',
+              height: screenDimensions.height - 10,
         }}>
           <View style={{
              backgroundColor: 'white',
              width: "100%",
-             height: "100%"
+             height: "100%",
+             paddingVertical: "10%"
           }}>
-            <TouchableOpacity style={{padding: 5, width: "15%"}} onPress={() => closePopup()}>
-          <Icon style={{marginLeft: 10}}  name="close-circle" size={30} color="gray"  />
+            <TouchableOpacity style={{padding: 5, width: "20%"}} onPress={() => closePopup()}>
+          <Icon style={{marginLeft: 10}}  name="close-circle" size={35} color="gray"  />
             </TouchableOpacity>
-            <TouchableOpacity style={{maxHeight: screenDimensions.height - 200}} onPress={() => openLink(DataPopup.link)}>
-              <Image source={{ uri: `https://app.carrefourdemanutention.com/public/pubs/${popup}`}} style={styles.popimage}/>
+            <TouchableOpacity style={{height: "100%", maxHeight: screenDimensions.height - 300, marginTop: 5}} onPress={() => openLink(DataPopup.link)}>
+              <Image source={{ uri: `https://app.carrefourdemanutention.com/public/pubs/${popup}`}} style={styles.popimage} />
             </TouchableOpacity>
             
           </View>
@@ -274,11 +273,8 @@ header: {
   },
   FirstmodalContent: {
     position: "relative",
-    backgroundColor: '#FFF',
     width: "95%",
-    height: "72%",
-    borderRadius: 8,
-    padding: 5,
+    maxHeight: "70%",
     elevation: 5, 
     shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 }, 

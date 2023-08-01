@@ -22,8 +22,10 @@ const rightChevronWhite = require('../../../assets/icons/right-chevron-white.png
 const Email = require('../../../assets/icons/email.png')
 const ifelemLogo = require('../../../assets/icons/adaptive-icon.png')
 const Delete = require('../../../assets/icons/delete.png')
+const Place = require('../../../assets/icons/placeholder.png')
 
 export {
+  Place,
   Delete,
   ifelemLogo,
   Email,

@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import Loader from '../common/loader/Loader';
 import { FontAwesome5 } from "@expo/vector-icons";
-import dataPartenaire from "../constants/data";
 import React, { useState, useEffect } from "react";
 import useFetch from '../../hook/useFetch';
 import Time from '../home/time/Time'
@@ -24,7 +23,6 @@ import NotConnected from '../common/Notconnected/NotConnected';
 const Partenaire = () => {
   const screenDimensions = Dimensions.get('screen');
   const navigation = useNavigation();
-  const [partenaires] = useState(dataPartenaire.dataPartenaire)
   const handleNavigatePress = (partenaireId) => { 
     navigation.navigate('PartenaireId', {partenaireId});
   };
@@ -66,7 +64,7 @@ const Partenaire = () => {
 
     
             <View style={{display: 'flex', flexDirection: 'column', textAlign:'left', width: '60%'}}>
-              <Text style={{color: "#55a369", fontWeight: 'bold'}}>{item?.company_name}</Text>
+              <Text style={{color: "#55a369", fontWeight: 'bold', fontSize: 16}}>{item?.company_name}</Text>
             </View>
             <FontAwesome5  name="chevron-right" size={20} color="#55a369"  />
           </View>

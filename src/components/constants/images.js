@@ -1,33 +1,22 @@
-const iriser = require('../../../assets/images/isir-backg.png')
-const Export = require('../../../assets/images/EXPORTATION___TRANSFORMATION.png')
-const agroforniture = require('../../../assets/images/AGROFORNITURE.png')
-const services = require('../../../assets/images/SERVICES_.png')
-const viefilliere = require('../../../assets/images/VIE_DE_LA_FILIERE.png')
+const gmclogo = require('../../../assets/images/gmclogo.png')
+const Maps = require('../../../assets/images/map.png')
 const EXPORTATION = require('../../../assets/images/EXPORTATION.png')
 const agrofournitures = require('../../../assets/images/agrofournitures1.png')
-const AgricultureduMaghreb = require('../../../assets/images/Agriculture-du-Maghreb.jpg')
 const servicesicon = require('../../../assets/images/services.png')
 const viedelafiliere = require('../../../assets/images/viedelafiliere.png')
-const AGROFORNITURE = require('../../../assets/images/AGROFORNITURE.png')
-const VALPLAST = require('../../../assets/images/VALPLAST.png')
 const BANNIERCARREFOUR = require('../../../assets/images/BANNIERCARREFOUR.gif')
-const gmclogo = require('../../../assets/images/gmclogo.png')
-const FRUITLOGISTICA = require('../../../assets/images/INSERTION-FRUIT-LOGISTICA.png')
+const iriser = require('../../../assets/images/isir-backg.png')
+const FRUITLOGISTICA = require('../../../assets/images/FRUIT-LOGISTICA1.png')
+
 
 export {
+    iriser, 
+    BANNIERCARREFOUR, 
     FRUITLOGISTICA,
-    gmclogo,
-    AgricultureduMaghreb,
-    VALPLAST,
-    BANNIERCARREFOUR,
-    AGROFORNITURE,
-    viedelafiliere,
-    servicesicon,
     EXPORTATION,
     agrofournitures,
-    iriser,
-    Export,
-    agroforniture,
-    services,
-    viefilliere
+    servicesicon,
+    viedelafiliere,
+    Maps,
+    gmclogo,
 }

@@ -99,7 +99,7 @@ const handleShowData = (data) => {
       
       <Tab.Screen name='Contactez nous' component={ContactUs}
        options = {{
-        tabBarLabel: "Contactez nous",
+        tabBarLabel: "Contact",
         }} />
     </Tab.Navigator>
    ) 
@@ -141,7 +141,6 @@ const styles = StyleSheet.create({
   tabBar: {
     backgroundColor : "#fff",
     alignItems : 'center',
-    height: 50,
     justifyContent:'center',
   },
   tabBarnone: {

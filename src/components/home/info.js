@@ -33,10 +33,10 @@ const Info = () => {
                 </Text>
             </View>
             <View style={styles.centerItem}>
-                <Text style={{fontWeight: 400, color: "gray"}}>Exportation & transformation</Text>
-                <Text style={{fontWeight: 400, color: "gray"}}>Agroforniture</Text>
-                <Text style={{fontWeight: 400, color: "gray"}}>Services</Text>
-                <Text style={{fontWeight: 400, color: "gray"}}>Vie de la fillière</Text>
+                <Text style={{fontWeight: 500, color: "gray"}}>Exportation & transformation</Text>
+                <Text style={{fontWeight: 500, color: "gray"}}>Agroforniture</Text>
+                <Text style={{fontWeight: 500, color: "gray"}}>Services</Text>
+                <Text style={{fontWeight: 500, color: "gray"}}>Vie de la fillière</Text>
             </View>
 
             <View>

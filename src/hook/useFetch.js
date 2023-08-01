@@ -13,7 +13,8 @@ import * as Network from 'expo-network';
     method: "GET",
     url: `https://app.carrefourdemanutention.com/public/api/${endpoint}`,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-API-Key': 'HS1aUuD7ectQtd7ox0Tr2d65LMa4QAeXKXr9hsOCwrK2HQmUEF5F4lhUaw7E7tNg'
     },
     params: { ...query },
   };

@@ -1,4 +1,3 @@
-import {home, enveloppe, loop, groupGreen, chevronRight, rightChevronWhite } from '../constants/icons'
 import {
   StyleSheet,
   Text,
@@ -9,7 +8,7 @@ import {
   Dimensions,
   Linking,
   ScrollView,
-  ActivityIndicator,
+  Platform,
   RefreshControl
  
 } from "react-native";
@@ -18,13 +17,14 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from '@react-navigation/native';
 import useFetch from '../../hook/useFetch';
 import Loader from '../common/loader/Loader';
+import {Maps} from '../constants/images';
+// import MapScreen from "../common/Maps/MapScreen";
 
 
 const PartenaireId = () => {
   const screenDimensions = Dimensions.get('screen');
     const route = useRoute();
     const { data, isLoading, error, refetch } = useFetch(`advertisers/${route.params.partenaireId}`)
-
       const  OpenGmail = (email) => {
         const url = `mailto:${email}`;
         Linking.canOpenURL(url)
@@ -44,20 +44,19 @@ const PartenaireId = () => {
       const handleOpenPhoneDialer = async (phone) => {
             const phoneNumber = phone; 
             const phoneUrl = `tel:${phoneNumber}`;
+            const phoneios = `telprompt:${phoneNumber}`;
+
             Linking.canOpenURL(phoneUrl).then((supported) => {
               if (supported) {
-                Linking.openURL(phoneUrl);
+                if (Platform.OS === "android") {
+                  Linking.openURL(phoneUrl);
+                } else {
+                  Linking.openURL(phoneios);
+                }
               } else {
                 alert("Numérotation téléphonique non prise en charge sur cet appareil.");
               }
             });
-        
-            // try {
-            //   await Linking.openURL(phoneUrl);
-            // } catch (error) {
-            //   console.error("Échec de l'ouverture du numéroteur téléphonique :", error);
-        
-            // }
           };
 
       const openLink = (item) => {
@@ -115,16 +114,25 @@ const PartenaireId = () => {
                  }}>
                 <Image source={{ uri: `https://app.carrefourdemanutention.com/public/advertisers/${data?.logo}`}} resizeMode="contain" style={{width: "60%", height: undefined, aspectRatio: 1}}/>
                 </View>
-                <View style={{marginTop: 10}}>
-                    <Text style={{fontWeight: 'bold' , fontSize: 20}}>{data?.company_name}</Text>
-                    <Text style={{fontWeight: 'bold' , fontSize: 15, color: '#696969'}}>{data?.adresse}</Text>
-                    <Text style={{fontWeight: 'bold' , fontSize: 14}}>derigent: {data.dirigent}</Text>
+                <View>
+                    {/* {data?.latitude !== null ?
+                   <MapScreen id={data?.id} latitude={data?.latitude} longitude={data?.longitude} companyname={data?.company_name} />
+                   :(
+                    null
+                   )
+                    } */}
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+                      <Image source={Maps} resizeMode="contain" style={{width: "10%", height: undefined, aspectRatio: 1, marginLeft: 4}} />
+                    </View>
+                    <Text style={{fontWeight: 'bold' , fontSize: 15, color: '#696969', marginTop: 8}}>{data?.adresse}</Text>
+                      
+                    <Text style={{fontWeight: 'bold' , fontSize: 14,marginTop: 4}}>derigent: {data.dirigent}</Text>
                 </View>
                 <View >
-                    <Text style={{fontWeight: 'bold' , fontSize: 14}} >a propos de nous</Text>
+                    <Text style={{fontWeight: 'bold' , fontSize: 14, marginTop: 4}} >a propos de nous</Text>
                     <Text style={{fontWeight: 'bold' , fontSize: 14, color: '#696969'}}>{data?.description} </Text>
                 </View>
-                <View style={{width: '100%', paddingRight: 10, paddingBottom:20}}>
+                <View style={{width: '100%', paddingRight: 10, paddingBottom:20, marginTop: 4}}>
                 {data?.email !== null ? 
                 <TouchableOpacity onPress={() => OpenGmail(data?.email)}>
               <View style={styles.home}>

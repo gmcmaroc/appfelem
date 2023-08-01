@@ -4,6 +4,7 @@ import {
     Linking,
     View, 
     TouchableOpacity,
+    Platform
      } from 'react-native';
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -11,21 +12,20 @@ const PhoneComponent = ({ shouldRender }) => {
     const handleOpenPhoneDialer = async (phone) => {
       const phoneNumber = phone; 
       const phoneUrl = `tel:${phoneNumber}`;
+      const phoneios = `telprompt:${phoneNumber}`;
 
       Linking.canOpenURL(phoneUrl).then((supported) => {
         if (supported) {
-          Linking.openURL(phoneUrl);
+          if (Platform.OS === "android") {
+            Linking.openURL(phoneUrl);
+          } else {
+            Linking.openURL(phoneios);
+          }
         } else {
           alert("Numérotation téléphonique non prise en charge sur cet appareil.");
         }
       });
   
-      // try {
-      //   await Linking.openURL(phoneUrl);
-      // } catch (error) {
-      //   console.error("Échec de l'ouverture du numéroteur téléphonique :", error);
-  
-      // }
     };
   
     if (shouldRender) {
