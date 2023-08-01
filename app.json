@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "i-FELEM",
+    "slug": "iFELEMApp",
+    "version": "1.0.5",
+    "sdkVersion": "48.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.iFELEM.Application"
+    },
+    "android": {
+      "package": "com.iFELEM.Application",
+      "versionCode": 11,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1db415d7-f9b5-4e98-98c3-3711bffd0348"
+      }
+    }
+  }
+}
