@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {ifelem} from '../../constants/icons';
 import Home from '../Home'
-import HeaderRight from '../../common/headers/HeaderRight'
+import HeaderRight from '../../common/headers/HeaderRight.jsx'
 import SubCategorie from '../SubCategorie';
 import Info from "../info"
 import Companies from '../Companies';
